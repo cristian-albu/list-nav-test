@@ -45,6 +45,7 @@ function App() {
     const ulRef = React.useRef<HTMLUListElement | null>(null);
 
     const [focusedState, setFocusedState] = React.useState(-1);
+    const [currTargetState, setCurrTarget] = React.useState("");
 
     const items = buildListItems(listItems, focusedState);
 
@@ -69,9 +70,15 @@ function App() {
     };
 
     const handleMouseMove = React.useCallback((event: React.MouseEvent<HTMLUListElement, MouseEvent>) => {
-        const target = event.target as any;
-        const indexOfElement = items.findIndex((e) => e.props.id === target.id);
-        setFocusedState(indexOfElement);
+        const targetId = (event.target as any).id;
+        console.log(currTargetState, targetId);
+        setCurrTarget(targetId);
+
+        if (targetId != currTargetState) {
+            console.log("findIndex runs");
+            const indexOfElement = items.findIndex((e) => e.props.id === targetId);
+            setFocusedState(indexOfElement);
+        }
     }, []);
 
     return (
